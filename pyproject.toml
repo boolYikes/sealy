@@ -9,14 +9,16 @@ dependencies = [
     "sqlalchemy",
     "alembic",
     "fastapi[standard]",
-    "uvicorn[standard]"
+    "uvicorn[standard]",
+    "psycopg[binary]",
 ]
 
 [project.optional-dependencies]
-test = ["pytest"]
+test = ["pytest", "python-dotenv"]
 
 [tool.ruff]
 exclude = [
+    "env.py",
     ".bzr",
     ".direnv",
     ".eggs",

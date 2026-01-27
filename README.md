@@ -1,9 +1,3 @@
-## SLO
-### API
-- latency < 200ms
-### DB
-- < 1~3ms
-
 ## Infra
 - FastAPI
 ### API Hosting
@@ -37,29 +31,6 @@
 - `db` for db models, `schemas` for pydantic api shape
 
 --------
-TDD
-- Write failing test → implement → refactor
-- If a test depends on DB it is not a unit test anymore!!!
-
-DB init (migration) test
-- App can start from empty DB
-- Migrations run cleanly and idempotently
-✔️ catches scary prod bugs early
-
-Schema test
-- DB schema matches expectations
-- Tables/columns/indexes exist
-✔️ especially good if using raw SQL / Alembic
-
-Init pytest fixtures
-- Session-scoped DB
-- Transaction rollback per test
-✔️ fast + clean
-
-API test
-- GraphQL / REST behaves correctly end-to-end
-✔️ highest confidence
---------
 Run migration tests on a fresh DB, not reused one
 Keep schema tests read-only
 API tests should treat DB as a black box
@@ -67,9 +38,12 @@ Use markers e.g.,:
 	@pytest.mark.integration
 	@pytest.mark.api
 ----
-TODOs
-1. setup (sqlalchemy, alembic, pytest)
-2. proj structure
-3. alchemy model definition
-4. alembic env configured
-5. migration test code (with an engine as fixture
+- the rut
+1. Init Alembic (once)
+2. Define model
+3. Generate revision (alembic revision --autogenerate)
+4. Run pytest (migration tests apply upgrade head)
+5. Change model (schema evolution)
+6. Generate new revision
+7. Run pytest again
+8. ...
