@@ -1,19 +1,3 @@
-# import pytest
-
-# from sealy.db.init_db import init_db
-
-# @pytest.fixture
-# def something(): ...
-
-
-# without alembic
-# def test_init_db():
-#   print("yappa")
-#   result = init_db()
-#   assert result == 1, "something went wrong"
-
-
-# with alembic
 from alembic import command
 from sqlalchemy import inspect
 
