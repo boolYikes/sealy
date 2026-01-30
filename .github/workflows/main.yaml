@@ -16,7 +16,7 @@ jobs:
           POSTGRES_PASSWORD: ${{ secrets.PG_TEST_U_P_D }}
           POSTGRES_DB: ${{ secrets.PG_TEST_U_P_D }}
         ports:
-          - ${{ secrets.PG_TEST_PORT }}:${{ secrets.PG_TEST_PORT }}
+          - 5432:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -24,7 +24,7 @@ jobs:
           --health-retries 5
 
     env:
-      PG_TEST_URL: postgresql+psycopg://${{ secrets.PG_TEST_U_P_D }}:${{ secrets.PG_TEST_U_P_D }}@localhost:${{ secrets.PG_TEST_PORT }}/${{ secrets.PG_TEST_U_P_D }}
+      PG_TEST_URL: postgresql+psycopg://${{ secrets.PG_TEST_U_P_D }}:${{ secrets.PG_TEST_U_P_D }}@localhost:5432/${{ secrets.PG_TEST_U_P_D }}
 
     steps:
       - uses: actions/checkout@v6
