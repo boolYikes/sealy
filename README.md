@@ -49,3 +49,7 @@ Use markers e.g.,:
 6. Generate new revision
 7. Run pytest again
 8. ...
+
+
+### TODO
+- Project layout to use src/
