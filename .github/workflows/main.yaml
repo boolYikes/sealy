@@ -1,0 +1,42 @@
+name: Sealy CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  migration:
+    runs-on: ubuntu-24.04
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: ${{ secrets.PG_TEST_U_P_D }}
+          POSTGRES_PASSWORD: ${{ secrets.PG_TEST_U_P_D }}
+          POSTGRES_DB: ${{ secrets.PG_TEST_U_P_D }}
+        ports:
+          - ${{ secrets.PG_TEST_PORT }}:${{ secrets.PG_TEST_PORT }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      PG_TEST_URL: postgresql+psycopg://${{ secrets.PG_TEST_U_P_D }}:${{ secrets.PG_TEST_U_P_D }}@localhost:${{ secrets.PG_TEST_PORT }}/${{ secrets.PG_TEST_U_P_D }}
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install .
+
+      - name: Run tests
+        run: pytest

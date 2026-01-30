@@ -13,7 +13,7 @@ if env == "dev":
   dot_env = os.path.join(PROJ_ROOT, ".env")
   load_dotenv(dot_env)
 
-DATABASE_URL = os.environ.get("PG_URL")
+DATABASE_URL = os.environ.get("PG_URL", "")
 
 engine = create_engine(DATABASE_URL, echo=True)
 

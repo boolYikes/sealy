@@ -1,8 +1,17 @@
+# from pathlib import Path
+
 import pytest
 from alembic.config import Config
 from sqlalchemy import create_engine
 
-TEST_DB_URL = "postgresql+psycopg://sealy-dev:sealy-dev@localhost:5432/sealy-dev"
+# import dotenv
+import os
+
+
+# PROJ_ROOT = Path(__file__).resolve().parent.parent
+# dotenv.load_dotenv(os.path.join(PROJ_ROOT, ".env"))
+
+TEST_DB_URL = os.environ.get("PG_TEST_URL", "")
 
 
 @pytest.fixture
