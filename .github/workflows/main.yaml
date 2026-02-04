@@ -1,12 +1,20 @@
 name: Sealy CI
+# Silly CI? Seaaaaly CI Siili CI? 0Д0
+
+# On PR -> run CI
+# On Merge -> TBD
 
 on:
-  push:
+  # push:
+  #   branches: [main]
   pull_request:
+    branches: [main] # target is main
+    types: [opened, synchronize] # on open, new commit to source
 
 jobs:
   migration:
     runs-on: ubuntu-24.04
+    if: github.event_name == 'pull_request'
 
     services:
       postgres:
