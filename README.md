@@ -49,7 +49,7 @@ Use markers e.g.,:
 6. Generate new revision
 7. Run pytest again
 8. ...
-
+**Clean your local dev db too!!** -> op.create_table must exist in the migration plan
 
 ### TODO
 - Project layout to use src/
