@@ -1,8 +1,8 @@
-"""empty message
+"""init users schema
 
-Revision ID: 0ecbd57a20e5
-Revises: 805c3840b9f5
-Create Date: 2026-02-04 10:10:24.184749
+Revision ID: d090196ab849
+Revises:
+Create Date: 2026-02-04 10:20:33.995563
 
 """
 
@@ -13,8 +13,8 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision: str = "0ecbd57a20e5"
-down_revision: Union[str, Sequence[str], None] = "805c3840b9f5"
+revision: str = "d090196ab849"
+down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
