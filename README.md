@@ -50,6 +50,7 @@ Use markers e.g.,:
 7. Run pytest again
 8. ...
 **Clean your local dev db too!!** -> op.create_table must exist in the migration plan
+**adjust revision as needed!!** -> such as op.execute('create extension') for citext extension
 
 ### TODO
 - Project layout to use src/
