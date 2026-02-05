@@ -1,8 +1,8 @@
-"""resetrm alembic/versions/*
+"""empty message
 
-Revision ID: 57747895bafa
+Revision ID: 1a0ea422127e
 Revises:
-Create Date: 2026-02-04 10:30:34.840825
+Create Date: 2026-02-05 09:11:43.419063
 
 """
 
@@ -13,7 +13,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision: str = "57747895bafa"
+revision: str = "1a0ea422127e"
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -26,11 +26,7 @@ def upgrade() -> None:
   op.create_table(
     "users",
     sa.Column("id", sa.UUID(), nullable=False),
-    sa.Column(
-      "user_type",
-      sa.Enum("organization", "team", "individual", name="usertype"),
-      nullable=False,
-    ),
+    sa.Column("user_type", sa.Integer(), nullable=False),
     sa.Column("parent_id", sa.UUID(), nullable=True),
     sa.Column("username", sa.String(), nullable=False),
     sa.Column("display_name", sa.String(), nullable=True),

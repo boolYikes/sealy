@@ -1,10 +1,10 @@
-from enum import Enum as E
+# from enum import Enum as E
 
 from sqlalchemy import (
   Column,
-  # Integer,
+  Integer,
   String,
-  Enum,
+  # Enum,
   ForeignKey,
   UUID,
   DateTime,
@@ -14,10 +14,10 @@ from sqlalchemy.orm import relationship
 from sealy.db.base import Base
 
 
-class UserType(E):
-  organization = 0
-  team = 1
-  individual = 2
+# class UserType(E):
+#   organization = 0
+#   team = 1
+#   individual = 2
 
 
 class User(Base):
@@ -25,7 +25,7 @@ class User(Base):
 
   # id = Column(Integer, Sequence("user_id_seq", start=0), primary_key=True)
   id = Column(UUID, primary_key=True)
-  user_type = Column(Enum(UserType), nullable=False)
+  user_type = Column(Integer, nullable=False)
   parent_id = Column(UUID, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
   username = Column(String, nullable=False)
   display_name = Column(String, nullable=True)  # i dunno. redundant?!
