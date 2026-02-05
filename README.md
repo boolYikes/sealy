@@ -29,8 +29,9 @@
    - one request should be 1 to 3 queries not ten something queries (worst case db latency 10ms -> must be < 200ms according to SLO)
    - no looped queries! let the query do the job
 
-### Schema
+### Project structure
 - `db` for db models, `schemas` for pydantic api shape
+- `sealy` for source code, `tests` for tests
 
 --------
 Run migration tests on a fresh DB, not reused one
@@ -49,7 +50,8 @@ Use markers e.g.,:
 6. Generate new revision
 7. Run pytest again
 8. ...
-
+**Clean your local dev db too!!** -> op.create_table must exist in the migration plan
+**Include `op.execute("CREATE EXTENSION IF NOT EXISTS citext")` in the init migration**
 
 ### TODO
 - Project layout to use src/
