@@ -5,7 +5,11 @@
 build/
 dist/
 *.egg-info/
+*.zip
 
 # bytecode
 __pycache__/
 *.py[cod]
+
+# misc
+*instructions.md
