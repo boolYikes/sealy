@@ -47,8 +47,7 @@
 
 ### TODO
 - Drop unnecessary ids
-- JWT
-- argon2 pw hashing
+- JWT + argon2 pw hashing
 - token refresh
 - Errors
 - Firebase messaging -> push
