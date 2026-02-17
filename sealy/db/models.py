@@ -1,25 +1,12 @@
-from enum import Enum as E
+# TODO: Move IntEnum mapper to api side + add mapper for recurrence_type
+# TODO: Use DB level trigger for updated_at! onupdate is ORM level!
+# TODO: Enforce column level permission on admin-related elements (is_system)
+# NOTE: Consider evolution strategy for zero downtime(alter table uses ACCESS EXCLUSIVE)
 
-from sqlalchemy import Column, Integer, String, Sequence, Enum, ForeignKey
-from sqlalchemy.orm import relationship
-from sealy.db.base import Base
+# TODO: Enum definitions in a separate file, denormalized tables in separate files, lookups in separate files
 
-
-class UserType(E):
-  auth_user = 0
-  organization = 1
-  team = 2
-  individual = 3
-
-
-class User(Base):
-  __tablename__ = "users"
-
-  id = Column(Integer, Sequence("user_id_seq", start=0), primary_key=True)
-  username = Column(String, nullable=False)
-  user_type = Column(Enum(UserType), nullable=False)
-  email = Column(String, unique=True, index=True)
-  parent_id = Column(Integer, ForeignKey("users.id"), nullable=True)
-
-  # facilitate back to back ref
-  parent = relationship("User", remote_side=[id], backref="children")
+from sealy.db.user import User  # noqa
+from sealy.db.user import AuthIdentity  # noqa
+from sealy.db.todo import Todo  # noqa
+from sealy.db.todo import TodoRecurrence  # noqa
+from sealy.db.tag import Tag  # noqa

@@ -48,6 +48,7 @@ exclude = [
     "node_modules",
     "site-packages",
     "venv",
+    "__pycache__"
 ]
 line-length = 88
 indent-width = 2
