@@ -1,7 +1,8 @@
 from enum import IntEnum
+from datetime import datetime
+from uuid import UUID as uuid
 
 from sqlalchemy import (
-  Column,
   Integer,
   String,
   ForeignKey,
@@ -12,7 +13,7 @@ from sqlalchemy import (
   text,
 )
 from sqlalchemy.dialects.postgresql import BOOLEAN, ARRAY
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 from sealy.db.base import Base
 
 
@@ -27,25 +28,41 @@ class Priority(IntEnum):
 class Todo(Base):
   __tablename__ = "todos"
 
-  id = Column(UUID, primary_key=True)
-  title = Column(String(200), nullable=False)
-  priority = Column(Integer, nullable=False, default=0, server_default=text("0"))
-  pinned = Column(BOOLEAN, nullable=False, default=False, server_default=text("false"))
-  done = Column(BOOLEAN, nullable=False, default=False, server_default=text("false"))
-  description = Column(String, nullable=True)
-  deadline = Column(DateTime(timezone=True), nullable=True)
-  user_id = Column(UUID, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-  parent_id = Column(UUID, ForeignKey("todos.id", ondelete="SET NULL"), nullable=True)
-  created_at = Column(
+  id: Mapped[uuid] = mapped_column(
+    UUID, primary_key=True, server_default=text("gen_random_uuid()")
+  )
+  title: Mapped[str] = mapped_column(String(200), nullable=False)
+  priority: Mapped[int] = mapped_column(
+    Integer, nullable=False, default=0, server_default=text("0")
+  )
+  pinned: Mapped[bool] = mapped_column(
+    BOOLEAN, nullable=False, default=False, server_default=text("false")
+  )
+  done: Mapped[bool] = mapped_column(
+    BOOLEAN, nullable=False, default=False, server_default=text("false")
+  )
+  description: Mapped[str | None] = mapped_column(String, nullable=True)
+  deadline: Mapped[datetime | None] = mapped_column(
+    DateTime(timezone=True), nullable=True
+  )
+  user_id: Mapped[uuid] = mapped_column(
+    UUID, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+  )
+  parent_id: Mapped[uuid | None] = mapped_column(
+    UUID, ForeignKey("todos.id", ondelete="SET NULL"), nullable=True
+  )
+  created_at: Mapped[datetime] = mapped_column(
     DateTime(timezone=True), nullable=False, server_default=func.now()
   )
-  updated_at = Column(
+  updated_at: Mapped[datetime] = mapped_column(
     DateTime(timezone=True),
     nullable=False,
     onupdate=func.now(),
     server_default=func.now(),
   )
-  deleted_at = Column(DateTime(timezone=True), nullable=True)
+  deleted_at: Mapped[datetime | None] = mapped_column(
+    DateTime(timezone=True), nullable=True
+  )
 
   user = relationship("User", back_populates="todos")
   parent = relationship(
@@ -68,25 +85,37 @@ class TodoRecurrence(Base):
   - monthly = 2
   - yearly = 3
   """
-  id = Column(UUID, primary_key=True)
+  id: Mapped[uuid] = mapped_column(
+    UUID, primary_key=True, server_default=text("gen_random_uuid()")
+  )
   # unique -> one to one rel
-  todo_id = Column(
+  todo_id: Mapped[uuid] = mapped_column(
     UUID, ForeignKey("todos.id", ondelete="CASCADE"), unique=True, nullable=False
   )
-  recurrence_type = Column(Integer, nullable=True)
-  interval = Column(Integer, nullable=True)  # for all types
-  days_of_week = Column(ARRAY(Integer), nullable=True)  # 0-6: Sun-Sat
-  days_of_month = Column(ARRAY(Integer), nullable=True)  # 1-31 with -1 as the last day
-  weeks_of_month = Column(ARRAY(Integer), nullable=True)  # 1-5 with -1 for last week
-  months_of_year = Column(ARRAY(Integer), nullable=True)  # 1-12
-  start_at = Column(
+  recurrence_type: Mapped[int | None] = mapped_column(Integer, nullable=True)
+  interval: Mapped[int | None] = mapped_column(Integer, nullable=True)  # for all types
+  days_of_week: Mapped[list[int] | None] = mapped_column(
+    ARRAY(Integer), nullable=True
+  )  # 0-6: Sun-Sat
+  days_of_month: Mapped[list[int] | None] = mapped_column(
+    ARRAY(Integer), nullable=True
+  )  # 1-31 with -1 as the last day
+  weeks_of_month: Mapped[list[int] | None] = mapped_column(
+    ARRAY(Integer), nullable=True
+  )  # 1-5 with -1 for last week
+  months_of_year: Mapped[list[int] | None] = mapped_column(
+    ARRAY(Integer), nullable=True
+  )  # 1-12
+  start_at: Mapped[datetime] = mapped_column(
     DateTime(timezone=True), nullable=False
   )  # Should be user local time
-  end_at = Column(DateTime(timezone=True), nullable=True)  # null: no end
-  created_at = Column(
+  end_at: Mapped[datetime | None] = mapped_column(
+    DateTime(timezone=True), nullable=True
+  )  # null: no end
+  created_at: Mapped[datetime] = mapped_column(
     DateTime(timezone=True), nullable=False, server_default=func.now()
   )
-  updated_at = Column(
+  updated_at: Mapped[datetime] = mapped_column(
     DateTime(timezone=True),
     nullable=False,
     onupdate=func.now(),

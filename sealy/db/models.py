@@ -9,4 +9,7 @@ from sealy.db.user import User  # noqa
 from sealy.db.user import AuthIdentity  # noqa
 from sealy.db.todo import Todo  # noqa
 from sealy.db.todo import TodoRecurrence  # noqa
+from sealy.db.contact import Contact  # noqa
+from sealy.db.contact import Number, Email, Address  # noqa
 from sealy.db.tag import Tag  # noqa
+from sealy.db.tag import ContactTag  # noqa

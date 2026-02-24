@@ -44,6 +44,7 @@
 - **Reset and clean up migrations before prod**
 - **Include `op.execute("CREATE EXTENSION IF NOT EXISTS citext")` in the init migration**
 - **Alembic only generates enum for op.create_table() not op.execute() -> explicitly create types in revisions**
+- Export dev env before alembic/pytest commands
 
 ### TODO
 - Drop unnecessary ids
