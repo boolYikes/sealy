@@ -1,21 +1,19 @@
 def test_migrations_create_tables(migrated_db):
-  assert "users" in migrated_db.get_table_names(), "users table is not there!"
-  assert "auth_identities" in migrated_db.get_table_names(), (
-    "auth_identities table is not there!"
-  )
-  assert "todos" in migrated_db.get_table_names(), "todos table is not there!"
-  assert "todo_recurrences" in migrated_db.get_table_names(), (
-    "todo_recurrences table is not there!"
-  )
-  assert "contacts" in migrated_db.get_table_names(), "contacts table is not there!"
-  assert "numbers" in migrated_db.get_table_names(), "numbers table is not there!"
-  assert "emails" in migrated_db.get_table_names(), "emails table is not there!"
-  assert "addresses" in migrated_db.get_table_names(), "addresses table is not there!"
-  assert "tags" in migrated_db.get_table_names(), "tags table is not there!"
-  assert "todo_tags" in migrated_db.get_table_names(), "todo_tags table is not there!"
-  assert "contact_tags" in migrated_db.get_table_names(), (
-    "contact_tags table is not there!"
-  )
+  tables = migrated_db.get_table_names()
+  # Refactor this!!
+  assert "users" in tables, "users table is not there!"
+  assert "auth_identities" in tables, "auth_identities table is not there!"
+  assert "todos" in tables, "todos table is not there!"
+  assert "todo_recurrences" in tables, "todo_recurrences table is not there!"
+  assert "contacts" in tables, "contacts table is not there!"
+  assert "numbers" in tables, "numbers table is not there!"
+  assert "emails" in tables, "emails table is not there!"
+  assert "addresses" in tables, "addresses table is not there!"
+  assert "tags" in tables, "tags table is not there!"
+  assert "todo_tags" in tables, "todo_tags table is not there!"
+  assert "contact_tags" in tables, "contact_tags table is not there!"
+  assert "memos" in tables, "memos table is not present"
+  assert "memo_tags" in tables, "memo_tags table is not present"
 
 
 def test_users_table_columns(migrated_db):

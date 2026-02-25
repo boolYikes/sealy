@@ -74,6 +74,7 @@ class User(Base):
   )  # back populates the user relationship from the Todos table
   tags = relationship("Tag", back_populates="user")
   contacts = relationship("Contact", back_populates="user")
+  memos = relationship("Memo", back_populates="user")
 
 
 # TBD

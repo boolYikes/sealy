@@ -40,6 +40,7 @@ class Tag(Base):
   user = relationship("User", back_populates="tags")
   todo_tags = relationship("TodoTag", back_populates="tag")
   contact_tags = relationship("ContactTag", back_populates="tag")
+  memo_tags = relationship("MemoTag", back_populates="tag")
 
   # TODO: tags.id < memos_tags.tag_id [delete: cascade]
 
@@ -100,3 +101,32 @@ class ContactTag(Base):
 
   # no dupe tag on a same todo
   __table_args__ = (UniqueConstraint("contact_id", "tag_id", name="uq_contact_tag"),)
+
+
+class MemoTag(Base):
+  __tablename__ = "memo_tags"
+  id: Mapped[uuid] = mapped_column(
+    UUID, primary_key=True, server_default=text("gen_random_uuid()")
+  )
+  memo_id: Mapped[uuid] = mapped_column(
+    UUID, ForeignKey("memos.id", ondelete="CASCADE"), nullable=False
+  )
+  tag_id: Mapped[uuid] = mapped_column(
+    UUID, ForeignKey("tags.id", ondelete="CASCADE"), nullable=False
+  )
+  created_at: Mapped[datetime] = mapped_column(
+    DateTime(timezone=True), nullable=False, server_default=func.now()
+  )
+  updated_at: Mapped[datetime] = mapped_column(
+    DateTime(timezone=True),
+    nullable=False,
+    onupdate=func.now(),
+    server_default=func.now(),
+  )
+
+  # includes same tags from different todos.
+  tag = relationship("Tag", back_populates="memo_tags")
+  memo = relationship("Memo", back_populates="memo_tags")
+
+  # no dupe tag on a same todo
+  __table_args__ = (UniqueConstraint("memo_id", "tag_id", name="uq_memo_tag"),)

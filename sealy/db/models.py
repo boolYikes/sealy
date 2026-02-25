@@ -1,5 +1,4 @@
 # TODO: Move IntEnum mapper to api side + add mapper for recurrence_type
-# TODO: Use DB level trigger for updated_at! onupdate is ORM level!
 # TODO: Enforce column level permission on admin-related elements (is_system)
 # NOTE: Consider evolution strategy for zero downtime(alter table uses ACCESS EXCLUSIVE)
 
@@ -11,5 +10,6 @@ from sealy.db.todo import Todo  # noqa
 from sealy.db.todo import TodoRecurrence  # noqa
 from sealy.db.contact import Contact  # noqa
 from sealy.db.contact import Number, Email, Address  # noqa
+from sealy.db.memo import Memo  # noqa
 from sealy.db.tag import Tag  # noqa
-from sealy.db.tag import ContactTag  # noqa
+from sealy.db.tag import ContactTag, MemoTag, TodoTag  # noqa
