@@ -1,8 +1,10 @@
 # from pathlib import Path
 
 import pytest
+from alembic import command
 from alembic.config import Config
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect
+from sqlalchemy.engine.reflection import Inspector
 
 # import dotenv
 import os
@@ -26,3 +28,9 @@ def alembic_cfg():
   cfg = Config("alembic.ini")
   cfg.set_main_option("sqlalchemy.url", TEST_DB_URL)
   return cfg
+
+
+@pytest.fixture
+def migrated_db(alembic_cfg, engine) -> Inspector:
+  command.upgrade(alembic_cfg, "head")
+  return inspect(engine)
