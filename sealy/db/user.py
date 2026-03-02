@@ -1,4 +1,3 @@
-from enum import Enum as E
 from uuid import UUID as uuid
 from datetime import datetime
 
@@ -14,13 +13,9 @@ from sqlalchemy import (
 )
 from sqlalchemy.dialects.postgresql import CITEXT, BOOLEAN, UUID
 from sqlalchemy.orm import relationship, Mapped, mapped_column
+
 from sealy.db.base import Base
-
-
-class UserType(E):
-  organization = "organization"
-  team = "team"
-  individual = "individual"
+from sealy.db.enums import UserType, Provider
 
 
 class User(Base):
@@ -75,13 +70,7 @@ class User(Base):
   tags = relationship("Tag", back_populates="user")
   contacts = relationship("Contact", back_populates="user")
   memos = relationship("Memo", back_populates="user")
-
-
-# TBD
-class Provider(E):
-  password = "password"
-  google = "google"
-  apple = "apple"
+  shared_todos = relationship("SharedTodo", back_populates="shared_user")
 
 
 class AuthIdentity(Base):

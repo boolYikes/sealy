@@ -1,3 +1,10 @@
+---
+name: Yet Another Todo App (Sealy)
+date: 2026-03-01
+tags: [python, fastapi, alembic, sqlalchemy, pydantic, gql, reactnative]
+summary: (WIP) Todo app with FastAPI + React Native
+---
+
 ![Sealy CI](https://github.com/boolYikes/sealy/actions/workflows/main.yaml/badge.svg?branch=main)
 
 ## Infra
@@ -13,6 +20,9 @@
 - Measure queries per endpoints
 
 ## DB Design
+
+![ERD](./todos_erd_v5.svg)
+
 1. Schema design
    - correct pk
    - proper fk
@@ -52,6 +62,8 @@
 - token refresh
 - Errors
 - Firebase messaging -> push
+- Indexes
+- Make notes for future revision, clean up revision, re-init on prod
 
 ### Non-negotiables
 - **Clear README (setup, usage, architecture)**

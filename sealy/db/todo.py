@@ -1,4 +1,3 @@
-from enum import IntEnum
 from datetime import datetime
 from uuid import UUID as uuid
 
@@ -8,21 +7,18 @@ from sqlalchemy import (
   ForeignKey,
   UUID,
   DateTime,
-  func,
+  Enum,
   CheckConstraint,
+  UniqueConstraint,
+  Index,
+  func,
   text,
 )
 from sqlalchemy.dialects.postgresql import BOOLEAN, ARRAY
 from sqlalchemy.orm import relationship, Mapped, mapped_column
+
 from sealy.db.base import Base
-
-
-class Priority(IntEnum):
-  none = 0
-  low = 1
-  medium = 2
-  high = 3
-  urgent = 4
+from sealy.db.enums import Permission
 
 
 class Todo(Base):
@@ -70,9 +66,7 @@ class Todo(Base):
   )
   recurrence = relationship("TodoRecurrence", back_populates="todo")
   todo_tags = relationship("TodoTag", back_populates="todo")
-
-
-# TODO: todos.id - shared_todos.todo_id [delete: cascade]
+  shared_todos = relationship("SharedTodo", back_populates="todo")
 
 
 class TodoRecurrence(Base):
@@ -160,4 +154,50 @@ class TodoRecurrence(Base):
       """,
       name="todo_recurrence_check",
     ),
+  )
+
+
+class SharedTodo(Base):
+  __tablename__ = "shared_todos"
+
+  id: Mapped[uuid] = mapped_column(
+    UUID, primary_key=True, server_default=text("gen_random_uuid()")
+  )
+  todo_id: Mapped[uuid] = mapped_column(
+    UUID, ForeignKey("todos.id", ondelete="CASCADE"), nullable=False
+  )
+  shared_user_id: Mapped[uuid] = mapped_column(
+    UUID, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+  )
+  # store value not the enum label
+  permissions: Mapped[Permission] = mapped_column(
+    Enum(Permission, name="permission", values_callable=lambda e: [m.value for m in e]),
+    nullable=False,
+    server_default=text("'R'::permission"),
+  )
+  recursive: Mapped[bool] = mapped_column(
+    BOOLEAN, nullable=False, server_default=text("true")
+  )
+  expiration: Mapped[datetime | None] = mapped_column(
+    DateTime(timezone=True), nullable=True
+  )  # null: indefinitely
+  created_at: Mapped[datetime] = mapped_column(
+    DateTime(timezone=True), nullable=False, server_default=func.now()
+  )
+  updated_at: Mapped[datetime] = mapped_column(
+    DateTime(timezone=True),
+    nullable=False,
+    onupdate=func.now(),
+    server_default=func.now(),
+  )
+
+  todo = relationship("Todo", back_populates="shared_todos")
+  shared_user = relationship("User", back_populates="shared_todos")
+
+  __table_args__ = (
+    # the first column gets an index automatically.
+    # NOTE: Index(unique=True) can do this too.
+    # NOTE: But I need an index on the second column anyway.
+    UniqueConstraint("todo_id", "shared_user_id", name="uq_todo_shared_user"),
+    Index("idx_shared_todos_shared_user_id", "shared_user_id"),
   )

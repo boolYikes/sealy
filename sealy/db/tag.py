@@ -42,8 +42,6 @@ class Tag(Base):
   contact_tags = relationship("ContactTag", back_populates="tag")
   memo_tags = relationship("MemoTag", back_populates="tag")
 
-  # TODO: tags.id < memos_tags.tag_id [delete: cascade]
-
 
 class TodoTag(Base):
   __tablename__ = "todo_tags"
