@@ -1,9 +1,11 @@
+<!--
 ---
 name: Yet Another Todo App (Sealy)
 date: 2026-03-04
 tags: [python, fastapi, alembic, sqlalchemy, pydantic, gql, reactnative]
 summary: (WIP) Todo app with FastAPI + React Native
 ---
+-->
 
 ![Sealy CI](https://github.com/boolYikes/sealy/actions/workflows/main.yaml/badge.svg?branch=main)
 
