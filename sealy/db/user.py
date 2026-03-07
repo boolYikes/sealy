@@ -71,6 +71,8 @@ class User(Base):
   contacts = relationship("Contact", back_populates="user")
   memos = relationship("Memo", back_populates="user")
   shared_todos = relationship("SharedTodo", back_populates="shared_user")
+  shared_memos = relationship("SharedMemo", back_populates="shared_user")
+  shared_contacts = relationship("SharedContact", back_populates="shared_user")
 
 
 class AuthIdentity(Base):
