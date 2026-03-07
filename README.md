@@ -21,19 +21,14 @@ Through bullet points, you get a job!<br>
 
 ![ERD](./todos_erd_v5.svg)
 
-1. Schema design
-   - correct pk
-   - proper fk
-   - avoid unncessary joins
-   - don't over-normalize
-2. Indexing
+1. Indexing
    - Index the search target table not the source
-3. Access patterns > theoretical purity
+2. Access patterns > theoretical purity
    - most frequented queries? -> optimize specifically for that. Analyze traffic
    - done with pre-join, materialized views, small denormalization
-4. Connection management
+3. Connection management
    - use connection pool. don't open a new db connection **per request!**
-5. Query count per request
+4. Query count per request
    - one request should be 1 to 3 queries not ten something queries (worst case db latency 10ms -> must be < 200ms according to SLO)
    - no looped queries! let the query do the job
 
