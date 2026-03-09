@@ -103,22 +103,21 @@ Data Pipeline | CDC (Logical Replication) ➡️ Event Stream / Consumers
 
 ### Milestone 1 - Database layer (in progress)
 This milestone focuses on building a **reliable database layer**.
-- [x] Schema design
-- [x] ORM models
-- [x] Migration system
-- [ ] Repository queries
-- [ ] Transaction handling
-- [ ] DB test suite
+- [x] Test environment setup
+- [x] ORM models tests
+- [x] Migration tests
+- [ ] Repository/queries tests
+- [ ] Transaction handling tests
 
-Test coverage includes:
+Test coverage includes(So far):
 
 | Area | Purpose |
 |-----|------|
+| DB setup tests | Ensure environment safety and isolation |
 | ORM model validation | Ensure schema constraints match application models |
 | Migration tests | Validate forward-only migrations |
 | Repository tests | Verify query correctness |
 | Transaction tests | Guarantee rollback / commit behavior |
-| DB setup tests | Ensure environment safety and isolation |
 
 ### Milestone 2 - API Layer
 - authentication
