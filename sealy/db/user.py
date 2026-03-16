@@ -63,16 +63,22 @@ class User(Base):
     backref="children",
     passive_deletes=True,
   )
-  auths = relationship("AuthIdentity", back_populates="user")
+  auths = relationship("AuthIdentity", back_populates="user", passive_deletes="all")
   todos = relationship(
-    "Todo", back_populates="user"
+    "Todo", back_populates="user", passive_deletes="all"
   )  # back populates the user relationship from the Todos table
-  tags = relationship("Tag", back_populates="user")
-  contacts = relationship("Contact", back_populates="user")
-  memos = relationship("Memo", back_populates="user")
-  shared_todos = relationship("SharedTodo", back_populates="shared_user")
-  shared_memos = relationship("SharedMemo", back_populates="shared_user")
-  shared_contacts = relationship("SharedContact", back_populates="shared_user")
+  tags = relationship("Tag", back_populates="user", passive_deletes="all")
+  contacts = relationship("Contact", back_populates="user", passive_deletes="all")
+  memos = relationship("Memo", back_populates="user", passive_deletes="all")
+  shared_todos = relationship(
+    "SharedTodo", back_populates="shared_user", passive_deletes="all"
+  )
+  shared_memos = relationship(
+    "SharedMemo", back_populates="shared_user", passive_deletes="all"
+  )
+  shared_contacts = relationship(
+    "SharedContact", back_populates="shared_user", passive_deletes="all"
+  )
 
 
 class AuthIdentity(Base):

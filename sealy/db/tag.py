@@ -38,9 +38,9 @@ class Tag(Base):
   )
 
   user = relationship("User", back_populates="tags")
-  todo_tags = relationship("TodoTag", back_populates="tag")
-  contact_tags = relationship("ContactTag", back_populates="tag")
-  memo_tags = relationship("MemoTag", back_populates="tag")
+  todo_tags = relationship("TodoTag", back_populates="tag", passive_deletes="all")
+  contact_tags = relationship("ContactTag", back_populates="tag", passive_deletes="all")
+  memo_tags = relationship("MemoTag", back_populates="tag", passive_deletes="all")
 
 
 class TodoTag(Base):
