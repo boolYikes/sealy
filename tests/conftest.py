@@ -4,6 +4,7 @@ import pytest
 from alembic import command
 from alembic.config import Config
 from sqlalchemy import create_engine, inspect, text
+from sqlalchemy.orm import Session
 from sqlalchemy.engine.reflection import Inspector
 
 # import dotenv
@@ -25,6 +26,15 @@ def engine():
   engine = create_engine(TEST_DB_URL)
   yield engine
   engine.dispose()
+
+
+@pytest.fixture
+def session(engine):
+  with Session(engine) as session:
+    yield session
+  # session = Session(engine)
+  # yield session
+  # session.close()
 
 
 @pytest.fixture(scope="session")

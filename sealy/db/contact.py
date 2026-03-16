@@ -44,7 +44,7 @@ class Contact(Base):
   deleted_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=True)
 
   user = relationship("User", back_populates="contacts")
-  contact_tags = relationship("ContactTag", back_populates="tag")
+  contact_tags = relationship("ContactTag", back_populates="contact")
   numbers = relationship("Number", back_populates="contact")
   addresses = relationship("Address", back_populates="contact")
   emails = relationship("Email", back_populates="contact")
