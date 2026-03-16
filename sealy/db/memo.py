@@ -33,7 +33,7 @@ class Memo(Base):
   obfuscated: Mapped[bool] = mapped_column(
     BOOLEAN, nullable=False, server_default=text("false")
   )
-  sercret: Mapped[bool] = mapped_column(
+  secret: Mapped[bool] = mapped_column(
     BOOLEAN, nullable=False, server_default=text("true")
   )
   user_id: Mapped[uuid] = mapped_column(
@@ -51,8 +51,10 @@ class Memo(Base):
   deleted_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=True)
 
   user = relationship("User", back_populates="memos")
-  memo_tags = relationship("MemoTag", back_populates="memo")
-  shared_memos = relationship("SharedMemo", back_populates="memo")
+  memo_tags = relationship("MemoTag", back_populates="memo", passive_deletes="all")
+  shared_memos = relationship(
+    "SharedMemo", back_populates="memo", passive_deletes="all"
+  )
 
 
 class SharedMemo(Base):

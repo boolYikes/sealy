@@ -64,9 +64,14 @@ class Todo(Base):
   parent = relationship(
     "Todo", remote_side=[id], backref="children", passive_deletes=True
   )
-  recurrence = relationship("TodoRecurrence", back_populates="todo")
-  todo_tags = relationship("TodoTag", back_populates="todo")
-  shared_todos = relationship("SharedTodo", back_populates="todo")
+  # uselist=False -> scalar -> one to one
+  recurrence = relationship(
+    "TodoRecurrence", back_populates="todo", uselist=False, passive_deletes="all"
+  )
+  todo_tags = relationship("TodoTag", back_populates="todo", passive_deletes="all")
+  shared_todos = relationship(
+    "SharedTodo", back_populates="todo", passive_deletes="all"
+  )
 
 
 class TodoRecurrence(Base):
@@ -84,7 +89,10 @@ class TodoRecurrence(Base):
   )
   # unique -> one to one rel
   todo_id: Mapped[uuid] = mapped_column(
-    UUID, ForeignKey("todos.id", ondelete="CASCADE"), unique=True, nullable=False
+    UUID,
+    ForeignKey("todos.id", ondelete="CASCADE"),
+    unique=True,
+    nullable=False,
   )
   recurrence_type: Mapped[int | None] = mapped_column(Integer, nullable=True)
   interval: Mapped[int | None] = mapped_column(Integer, nullable=True)  # for all types
@@ -116,7 +124,7 @@ class TodoRecurrence(Base):
     server_default=func.now(),
   )
 
-  todo = relationship("Todo", back_populates="recurrence")
+  todo = relationship("Todo", back_populates="recurrence", uselist=False)
 
   # or use conditionals...
   __table_args__ = (

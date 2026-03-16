@@ -17,7 +17,17 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-test = ["pytest", "python-dotenv"]
+test = ["pytest", "python-dotenv", "pytest-cov"]
+
+[tool.pytest.ini_options]
+addopts = "--cov=sealy --cov-report=term-missing --cov-report=xml"
+
+[tool.coverage.run]
+source = ["sealy"]
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
 
 [tool.ruff]
 exclude = [
