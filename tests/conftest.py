@@ -37,6 +37,24 @@ def session(engine):
   # session.close()
 
 
+@pytest.fixture
+def disposable_session(engine):
+  connection = engine.connect()
+  outer_transaction = connection.begin()
+
+  # bind session to the connection
+  session = Session(
+    bind=connection,
+    join_transaction_mode="conditional_savepoint",  # nested transactions with savepoints
+  )
+  try:
+    yield session
+  finally:
+    session.close()
+    outer_transaction.rollback()  # rollback everything, including nested transactions
+    connection.close()  # return connection to the pool
+
+
 @pytest.fixture(scope="session")
 def alembic_cfg():
   cfg = Config("alembic.ini")
