@@ -22,6 +22,7 @@ def make_user(
   is_system=None,
   timezone_value=None,
   locale=None,
+  display_name=None,
 ):
   user = User(
     username=username,
@@ -30,6 +31,7 @@ def make_user(
     parent=parent,
     timezone=timezone_value,
     locale=locale,
+    display_name=display_name,
   )
   if is_active is not None:
     user.is_active = is_active
